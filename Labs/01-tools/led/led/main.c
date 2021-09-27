@@ -28,6 +28,8 @@
  */
 #define LED_GREEN   PB5 // AVR pin where green LED is connected
 #define SHORT_DELAY 250 // Delay in milliseconds
+#define COMMA_DELAY 850 // dash delay
+#define DOT_DELAY   450 // dot delay
 #ifndef F_CPU           // Preprocessor directive allows for conditional
                         // compilation. The #ifndef means "if not defined".
 # define F_CPU 16000000 // CPU frequency in Hz required for delay
@@ -60,11 +62,15 @@ int main(void)
     while (1)
     {
         // Pause several milliseconds
+        _delay_ms(SHORT_DELAY);             // short wait
+        PORTB = PORTB | (1<<LED_GREEN);     // led is on
+        _delay_ms(DOT_DELAY);               // led is on for DOT_DELAY
+        PORTB = PORTB &~ (1<<LED_GREEN);    // led is off
+        _delay_ms(SHORT_DELAY);             // shot delay between symlos
+        PORTB = PORTB | (1<<LED_GREEN);     // led is on
+        _delay_ms(COMMA_DELAY);             // led is on for COMMA_DELAY
+        PORTB = PORTB &~ (1<<LED_GREEN);    // led in off
         _delay_ms(SHORT_DELAY);
-
-        // Invert LED in Data Register
-        // PORTB = PORTB xor 0010 0000
-        PORTB = PORTB ^ (1<<LED_GREEN);
     }
 
     // Will never reach this
