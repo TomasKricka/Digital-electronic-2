@@ -9,7 +9,7 @@
 
 ### Schema of LED active-low and LED active-high
 
-![schema of leds](images/schema1.png)
+![schema of leds](images/schema1.PNG)
 
 ### Rezistor calculation
 
@@ -26,5 +26,5 @@
 
 ### Schema of button active-low and button active-high
 
-![schema with buttons](images/schema2.png)
+![schema with buttons](images/schema2.PNG)
 
