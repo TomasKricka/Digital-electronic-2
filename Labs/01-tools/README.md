@@ -10,6 +10,19 @@
 * `|`   - OR
 * `^`   - XOR
 * `~`   - NOT
+* `<<` - Bit shift to the left
+* `>>` - Bit shift to the right
+
+<br>
+
+2. Truth table with `|`, `&`, `^`, `~`
+
+| **b** | **a** |**b or a** | **b and a** | **b xor a** | **not b** |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| 0 | 0 | 0 | 0 | 0 | 1 |
+| 0 | 1 | 1 | 0 | 1 | 1 |
+| 1 | 0 | 1 | 0 | 1 | 0 |
+| 1 | 1 | 1 | 1 | 0 | 0 |
 
 <br>
 
