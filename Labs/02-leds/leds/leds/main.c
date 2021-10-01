@@ -6,7 +6,7 @@
  * Copyright (c) 2018-Present Tomas Fryza
  * Dept. of Radio Electronics, Brno University of Technology, Czechia
  * This work is licensed under the terms of the MIT license.
- * 
+ *  
  **********************************************************************/
 
 /* Defines -----------------------------------------------------------*/
@@ -35,24 +35,28 @@ int main(void)
     // Set pin as output in Data Direction Register...
     DDRB = DDRB | (1<<LED_GREEN);
     // ...and turn LED off in Data Register
-    PORTB = PORTB & ~(1<<LED_GREEN);
+    //PORTB = PORTB & ~(1<<LED_GREEN);
 
     // Configure the second LED at port C
     
     DDRC = DDRC | (1<<LED_WHITE);
     
-    PORTC = PORTC & ~(1<<LED_WHITE);
+    //PORTC = PORTC & ~(1<<LED_WHITE);
 
 
     // Configure Push button at port D and enable internal pull-up resistor
     
-    DDRD = 
+    DDRD = DDRD | (1<<BUTTON);
+    
+    PORTD = PORTD & ~(1<<BUTTON);
 
 
     // Infinite loop
     while (1)
     {
         // Pause several milliseconds
+        
+        /*
         _delay_ms(BLINK_DELAY);
         PORTB = PORTB | (1<<LED_GREEN);
         _delay_ms(BLINK_DELAY);
@@ -63,17 +67,27 @@ int main(void)
         PORTC = PORTC &~ (1<<LED_WHITE);
         
        
-       /* 
+
+        
         _delay_ms(BLINK_DELAY);
         PORTB = PORTB | (1<<LED_GREEN);
         PORTC = PORTC | (1<<LED_WHITE);
         _delay_ms(BLINK_DELAY);
+        PORTB = PORTB &~ (1<<LED_GREEN);
+        PORTC = PORTC &~ (1<<LED_WHITE);
         */
+
+        
        
-       if(bit_is_clear(PINA ,PD2))
+
+       
+       if (bit_is_clear(PIND ,BUTTON))
        {
-           PORTD = PORTD | (1<<BUTTON);
+            PORTB ^= (1<<LED_GREEN);
+            PORTC ^= (1<<LED_WHITE);
+            loop_until_bit_is_clear(PIND, BUTTON);
        }
+       
 
 
         // WRITE YOUR CODE HERE
