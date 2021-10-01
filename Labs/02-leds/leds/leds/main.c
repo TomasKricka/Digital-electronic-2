@@ -35,20 +35,20 @@ int main(void)
     // Set pin as output in Data Direction Register...
     DDRB = DDRB | (1<<LED_GREEN);
     // ...and turn LED off in Data Register
-    //PORTB = PORTB & ~(1<<LED_GREEN);
+    PORTB = PORTB & ~(1<<LED_GREEN);
 
     // Configure the second LED at port C
     
     DDRC = DDRC | (1<<LED_WHITE);
     
-    //PORTC = PORTC & ~(1<<LED_WHITE);
+    PORTC = PORTC & ~(1<<LED_WHITE);
 
 
     // Configure Push button at port D and enable internal pull-up resistor
     
-    DDRD = DDRD | (1<<BUTTON);
+    DDRD = DDRD &~ (0<<BUTTON);
     
-    PORTD = PORTD & ~(1<<BUTTON);
+    PORTD = PORTD | (1<<BUTTON);
 
 
     // Infinite loop
