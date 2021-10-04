@@ -1,13 +1,12 @@
-# 03-gpio
+# Lab 3: Tomáš Kříčka
 
 ### My repository
 [My git - Tomáš Kříčka, 223283](https://github.com/TomasKricka/Digital-electronics-2)
 
 <br>
 
-## Preparation tasks
 
-### 1. Table with deta types
+### Table with data types in C
 
 | **Data type** | **Number of bits** | **Range** | **Description** |
 | :-: | :-: | :-: | :-- | 
@@ -20,36 +19,25 @@
 
 <br>
 
-### 2. Funcion
+### Functions
+* Function declaration -> There is define name and data type of function
+* Function definition -> Code is performing special task
+
+<br>
+
 ```c
-#include <avr/io.h>
+    // Configure Push button at port D and enable internal pull-up resistor
+    // WRITE YOUR CODE HERE
 
-// Function declaration (prototype)
-uint16_t calculate(uint8_t a, uint8_t b );      
-int main(void)
-{
-    uint8_t a = 156;
-    uint8_t b = 14;
-    uint16_t c;
-
-    // Function call
-    c = calculate (a, b);
-    printf("c = %d", c )
-
+    // Infinite loop
     while (1)
     {
+        // Pause several milliseconds
+        _delay_ms(BLINK_DELAY);
+
+        // WRITE YOUR CODE HERE
     }
-    return 0;
-}
 
-// Function definition (body)
-int calculate(uint8_t x, uint8_t y)
-{
-    uint16_t result;    // result = x^2 + 2xy + y^2
-
-    result = x*x + 2*x*y + y*y;
-    
-    return result;
-}
 ```
 
+## Traffic light
