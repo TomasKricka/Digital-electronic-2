@@ -30,7 +30,9 @@ void GPIO_config_output(volatile uint8_t *reg_name, uint8_t pin_num)
  **********************************************************************/
 void GPIO_config_input_nopull(volatile uint8_t *reg_name, uint8_t pin_num)
 {
-    *reg_name = *reg_name & ~ (1<<pin_num);
+    *reg_name = *reg_name & ~(1<<pin_num);  // Data Direction Register
+    reg_name++;                     // Change pointer to Data Register
+    *reg_name = *reg_name & ~(1<<pin_num);   // Data Register
 }
 
 /**********************************************************************
@@ -79,9 +81,16 @@ void GPIO_toggle(volatile uint8_t *reg_name, uint8_t pin_num)
 /**********************************************************************
  * Function: GPIO_read()
  **********************************************************************/
-/*
+
 uint8_t GPIO_read(volatile uint8_t *reg_name, uint8_t pin_num)
 {
-    *reg_name = pin_num;
+    if ((*reg_name & (1<<pin_num)) != 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+    
 }
-*/

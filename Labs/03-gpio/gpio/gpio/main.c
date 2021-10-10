@@ -16,7 +16,7 @@
 #define BUTTON      PD2
 #define BLINK_DELAY 850
 #ifndef F_CPU
-# define F_CPU 16000000     // CPU frequency in Hz required for delay
+#define F_CPU 16000000     // CPU frequency in Hz required for delay
 #endif
 
 /* Includes ----------------------------------------------------------*/
@@ -35,49 +35,29 @@ int main(void)
 {
     // Green LED at port B
     GPIO_config_output(&DDRB, LED_GREEN);
-    GPIO_write_high(&DDRB, LED_GREEN);
     GPIO_write_low(&PORTB, LED_GREEN);
 
     // Configure the second LED at port C
     GPIO_config_output(&DDRC, LED_RED);
     GPIO_write_high(&DDRC, LED_RED);
-    GPIO_write_low(&PORTC, LED_RED);
 
     // Configure Push button at port D and enable internal pull-up resistor
     
-    DDRD = DDRD &~ (0<<BUTTON);
-    
-    PORTD = PORTD | (1<<BUTTON);
+    GPIO_config_input_pullup(&DDRD, BUTTON);
 
 
     // Infinite loop
     while (1)
     {
-        // Pause several milliseconds
-        
-       /* GPIO_config_output(&DDRB, LED_GREEN);
-        _delay_ms(BLINK_DELAY);
-        GPIO_write_high(&DDRB, LED_GREEN);
-        _delay_ms(BLINK_DELAY);
-        GPIO_write_low(&PORTB, LED_GREEN);
-        */
-        
-        
-        //GPIO_config_output(&DDRC, LED_RED);
-        
-        GPIO_config_output(&DDRB, LED_GREEN);
-        GPIO_config_output(&DDRC, LED_RED);
-        
-        _delay_ms(BLINK_DELAY);
-        GPIO_write_high(&DDRC, LED_RED);
-        _delay_ms(BLINK_DELAY);
-        GPIO_write_low(&DDRC, LED_RED);
-        _delay_ms(BLINK_DELAY);
-        GPIO_write_high(&DDRB, LED_GREEN);
-        _delay_ms(BLINK_DELAY);
-        GPIO_write_low(&PORTB, LED_GREEN);
-
         // WRITE YOUR CODE HERE
+
+        if (GPIO_read(&PIND, BUTTON) == 0) 
+        {
+            _delay_ms(BLINK_DELAY);
+            GPIO_toggle(&PORTC, LED_RED);
+            GPIO_toggle(&PORTB, LED_GREEN);            
+        }
+
     }
 
     // Will never reach this
