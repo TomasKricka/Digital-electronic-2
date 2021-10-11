@@ -42,7 +42,6 @@ int main(void)
     GPIO_write_high(&DDRC, LED_RED);
 
     // Configure Push button at port D and enable internal pull-up resistor
-    
     GPIO_config_input_pullup(&DDRD, BUTTON);
 
 

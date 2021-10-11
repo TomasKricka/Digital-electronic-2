@@ -15,7 +15,7 @@
 | `uint16_t` | 16 | 0, 1, ..., 65 535 | Unsigned 16-bit integer |
 | `int16_t`  | 16 | -32768, ..., 32767 | Signed 16-bit integer |
 | `float`    | 32 | -3.4e+38, ..., 3.4e+38 | Single-precision floating-point |
-| `void`     |  |  | Pointer to unknown type of data |
+| `void`     | 0 | / | Pointer to unknown type of data |
 
 <br>
 
@@ -25,19 +25,33 @@
 
 <br>
 
+### Code which toggles LEDs only if push button is pressed
+
 ```c
+int main (void)
+{
     // Configure Push button at port D and enable internal pull-up resistor
     // WRITE YOUR CODE HERE
+
+    GPIO_config_input_pullup(&DDRD, BUTTON);
 
     // Infinite loop
     while (1)
     {
-        // Pause several milliseconds
-        _delay_ms(BLINK_DELAY);
-
         // WRITE YOUR CODE HERE
+
+        if (GPIO_read(&PIND, BUTTON) == 0) 
+        {
+            _delay_ms(BLINK_DELAY);
+            GPIO_toggle(&PORTC, LED_RED);
+            GPIO_toggle(&PORTB, LED_GREEN);            
+        }
+
     }
+}
 
 ```
+<br>
 
 ## Traffic light
+![Traffic light](images/schema_1.PNG)
