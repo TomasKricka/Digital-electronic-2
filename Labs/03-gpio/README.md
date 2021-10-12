@@ -20,12 +20,16 @@
 <br>
 
 ### Functions
+In your words, describe the difference between the declaration and the definition of the function in C.
+
 * Function declaration -> There is define name and data type of function
 * Function definition -> Code is performing special task
 
 <br>
 
 ### Code which toggles LEDs only if push button is pressed
+
+Part of the C code listing with syntax highlighting, which toggles LEDs only if push button is pressed. Otherwise, the value of the LEDs does not change. Use function from your GPIO library. Let the push button is connected to port D:
 
 ```c
 int main (void)
@@ -54,4 +58,6 @@ int main (void)
 <br>
 
 ## Traffic light
+Scheme of traffic light application with one red/yellow/green light for cars and one red/green light for pedestrians. Connect AVR device, LEDs, resistors, one push button (for pedestrians), and supply voltage. The image can be drawn on a computer or by hand. Always name all components and their values!
+
 ![Traffic light](images/schema_1.PNG)
