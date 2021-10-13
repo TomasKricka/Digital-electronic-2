@@ -46,8 +46,8 @@ int main(void)
 
     // Configuration of 16-bit Timer/Counter1 for LED blinking
     // Set the overflow prescaler to 262 ms and enable interrupt
-    //TIM1_overflow_262ms();
-    TIM1_overflow_1s();
+    TIM1_overflow_262ms();
+    //TIM1_overflow_1s();
     TIM1_overflow_interrupt_enable();
 
     // Enables interrupts by setting the global interrupt mask
@@ -72,7 +72,17 @@ int main(void)
 ISR(TIMER1_OVF_vect)
 {
     // WRITE YOUR CODE HERE
-    
-    GPIO_toggle(&PORTB, LED_D1);    
+        static uint16_t i=0;
+        if(i>=3){
+            i=--;
+            GPIO_toggle(&PORTB, );
+            }
+            else{
+            GPIO_toggle(&PORTB, );
+            i++;
+        }
+        
+        
+    }
 
 }
