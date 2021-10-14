@@ -33,16 +33,16 @@ int main(void)
 {
     // Configuration of LED(s) at port B
     GPIO_config_output(&DDRB, LED_D1);
-    GPIO_write_low(&PORTB, LED_D1);
+    GPIO_write_high(&PORTB, LED_D1);
     
     GPIO_config_output(&DDRB, LED_D2);
-    GPIO_write_low(&PORTB, LED_D1);
+    GPIO_write_high(&PORTB, LED_D1);
     
     GPIO_config_output(&DDRB, LED_D3);
-    GPIO_write_low(&PORTB, LED_D1);
+    GPIO_write_high(&PORTB, LED_D1);
     
     GPIO_config_output(&DDRB, LED_D4);
-    GPIO_write_low(&PORTB, LED_D1);
+    GPIO_write_high(&PORTB, LED_D1);
 
     // Configuration of 16-bit Timer/Counter1 for LED blinking
     // Set the overflow prescaler to 262 ms and enable interrupt
