@@ -5,7 +5,7 @@
  * ATmega328P (Arduino Uno), 16 MHz, AVR 8-bit Toolchain 3.6.2
  *
  * Copyright (c) 2018-Present Tomas Fryza
- * Dept. of Radio Electronics, Brno University of Technology, Czechia
+ * Dept. of Radio Electronics, Brno University of Technology, Czech republic
  * This work is licensed under the terms of the MIT license.
  * 
  **********************************************************************/
@@ -72,16 +72,22 @@ int main(void)
 ISR(TIMER1_OVF_vect)
 {
     // WRITE YOUR CODE HERE
-        static uint16_t i=0;
-        if(i>=3){
-            i=--;
-            GPIO_toggle(&PORTB, );
-            }
-            else{
-            GPIO_toggle(&PORTB, );
-            i++;
-        }
+        static uint16_t i=1;
+        static uint16_t led = 2;
         
+        GPIO_write_low(&PORTB, led);
+
+        if ((led =! 2) | (led =! 5)){
+            GPIO_write_high(&PORTB, led - i);
+        }
+
+        if (led == 5){
+            dir = dir - 1;
+        }
+
+        if (led == 2){
+            dir = dir + 1;
+        }      
         
     }
 

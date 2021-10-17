@@ -7,7 +7,7 @@
  * ATmega328P (Arduino Uno), 16 MHz, AVR 8-bit Toolchain 3.6.2
  *
  * Copyright (c) 2019-Present Tomas Fryza
- * Dept. of Radio Electronics, Brno University of Technology, Czechia
+ * Dept. of Radio Electronics, Brno University of Technology, Czech republic
  * This work is licensed under the terms of the MIT license.
  *
  **********************************************************************/
@@ -24,7 +24,7 @@
  * @note Based on Microchip Atmel ATmega328P manual and no source file
  *       is needed for the library.
  * @author Tomas Fryza, Dept. of Radio Electronics, Brno University 
- *         of Technology, Czechia
+ *         of Technology, Czech republic
  * @copyright (c) 2019-Present Tomas Fryza, This work is licensed under 
  *                the terms of the MIT license
  * @{
