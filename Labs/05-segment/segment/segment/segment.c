@@ -4,7 +4,7 @@
  * ATmega328P (Arduino Uno), 16 MHz, AVR 8-bit Toolchain 3.6.2
  *
  * Copyright (c) 2019-Present Tomas Fryza
- * Dept. of Radio Electronics, Brno University of Technology, Czechia
+ * Dept. of Radio Electronics, Brno University of Technology, Czech republic
  * This work is licensed under the terms of the MIT license.
  *
  **********************************************************************/
@@ -31,6 +31,39 @@ void SEG_init(void)
     GPIO_config_output(&DDRB, SEG_DATA);
 }
 
+/* Variables ---------------------------------------------------------*/
+// Active-low digit 0 to 9
+uint8_t segment_value[] = {
+    // abcdefgDP
+    0b00000001,     // Digit 0
+    0b10011111,     // Digit 1
+    0b00100101,     // Digit 2
+    0b00001101,     // Digit 3
+    0b10101001,     // Digit 4
+    0b01001001,     // Digit 5
+    0b01000001,     // Digit 6
+    0b11100001,     // Digit 7
+    0b00000001,     // Digit 8
+    0b00001001      // Digit 9
+};
+
+// Active-high position 0 to 3
+uint8_t segment_position[] = {
+    // p3p2p1p0....
+    0b00010000,     // Position 0
+    0b00100000,     // Position 1
+    0b01000000,     // Position 2
+    0b10000000      // Position 3
+};
+
+/*--------------------------------------------------------------------*/
+void SEG_update_shift_regs(uint8_t segments, uint8_t position)
+{
+    uint8_t bit_number;
+    segments = segment_value[segments];     // 0, 1, ..., 9
+    position = segment_position[position];  // 0, 1, 2, 3
+
+
 /**********************************************************************
  * Function: SEG_update_shift_regs()
  * Purpose:  Display segments at one position of the SSD.
@@ -39,13 +72,17 @@ void SEG_init(void)
  *                      be displayed (p3 p2 p1 p0 xxxx, active high)
  * Returns:  none
  **********************************************************************/
-void SEG_update_shift_regs(uint8_t segments, uint8_t position)
-{
-    uint8_t bit_number;
+
+    
 
     // Pull LATCH, CLK, and DATA low
+    
+    GPIO_write_low(&PORTD, SEG_LATCH);
+    GPIO_write_low(&PORTD, SEG_CLK);
+    GPIO_write_low(&PORTB, SEG_DATA);
 
     // Wait 1 us
+    _delay_us(1);
 
     // Loop through the 1st byte (segments)
     // a b c d e f g DP (active low values)
@@ -53,14 +90,24 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position)
     {
         // Test LSB of "segments" by & (faster) or % (slower) and... 
         // ...output DATA value
-
+        if(segments & 1){
+            GPIO_write_high(&PORTB, SEG_DATA);
+        }
+        else{
+            GPIO_write_low(&PORTB, SEG_DATA);
+        }
+        
         // Wait 1 us
+        _delay_us(1);
 
         // Pull CLK high
+        GPIO_write_high(&PORTD, SEG_CLK);
 
         // Wait 1 us
+        _delay_us(1);
 
         // Pull CLK low
+        GPIO_write_low(&PORTD, SEG_CLK);
 
         // Shift "segments"
         segments = segments >> 1;
@@ -72,22 +119,34 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position)
     {
         // Test LSB of "position" by & (faster) or % (slower) and... 
         // ...output DATA value
-
+        if(segments & 1){
+            GPIO_write_high(&PORTB, SEG_DATA);
+        }
+        else{
+            GPIO_write_low(&PORTB, SEG_DATA);
+        }
+        
         // Wait 1 us
+        _delay_us(1);
 
         // Pull CLK high
+        GPIO_write_high(&PORTD, SEG_CLK);
 
         // Wait 1 us
+        _delay_us(1);
 
         // Pull CLK low
+        GPIO_write_low(&PORTD, SEG_CLK);
 
         // Shift "position"
         position = position >> 1;
     }
 
     // Pull LATCH high
+    GPIO_write_high(&PORTD, SEG_LATCH);
 
     // Wait 1 us
+    _delay_us(1);
 
 }
 
@@ -95,6 +154,19 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position)
  * Function: SEG_clear()
  **********************************************************************/
 
+void SEG_clear(void)
+{
+   GPIO_write_low(&PORTB, SEG_DATA); 
+}
+
 /**********************************************************************
  * Function: SEG_clk_2us()
  **********************************************************************/
+
+void SEG_clk_2us(void)
+{
+    _delay_us(1);
+    GPIO_write_high(&PORTD, SEG_CLK);
+    _delay_us(1);
+    GPIO_write_low(&PORTD, SEG_CLK);
+}

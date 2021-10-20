@@ -32,6 +32,11 @@ int main(void)
 
     // Configure 16-bit Timer/Counter1 for Decimal counter
     // Set the overflow prescaler to 262 ms and enable interrupt
+    TIM1_overflow_262ms();
+    TIM1_overflow_interrupt_disable();
+    
+    TIM2_overflow_1ms();
+    TIM2_overflow_interrupt_disable();
 
 
     // Enables interrupts by setting the global interrupt mask
@@ -53,8 +58,22 @@ int main(void)
  * Function: Timer/Counter1 overflow interrupt
  * Purpose:  Increment decimal counter value and display it on SSD.
  **********************************************************************/
+
+
 ISR(TIMER1_OVF_vect)
 {
     // WRITE YOUR CODE HERE
+    
+    static uint8_t pos = 0;  // This line will only run the first time
+    SEG_update_shift_regs(pos, 1);
+    
+    if(pos > 10){
+        pos = pos + 1;
+    }
+    else{
+        pos = 0;
+    }
+    
+    
 
 }
