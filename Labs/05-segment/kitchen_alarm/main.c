@@ -15,6 +15,9 @@
 #include "timer.h"          // Timer library for AVR-GCC
 #include "segment.h"        // Seven-segment display library for AVR-GCC
 
+volatile uint8_t num0 = 0;
+volatile uint8_t num1 = 0;
+
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
  * Function: Main function where the program execution begins
@@ -34,10 +37,14 @@ int main(void)
     // Set the overflow prescaler to 262 ms and enable interrupt
     TIM1_overflow_262ms();
     TIM1_overflow_interrupt_disable();
+
+    // 8-bit Timer/Counter0, display switching
+    TIM0_overflow_4ms();
+    TIM0_overflow_interrupt_disable();
     
 
     // Enables interrupts by setting the global interrupt mask
-
+    sei();
 
     // Infinite loop
     while (1)
@@ -53,7 +60,7 @@ int main(void)
 /* Interrupt service routines ----------------------------------------*/
 /**********************************************************************
  * Function: Timer/Counter1 overflow interrupt
- * Purpose:  Increment decimal counter value and display it on SSD.
+ * Purpose:  Increment counter value from 00 to 59.
  **********************************************************************/
 
 
@@ -61,15 +68,43 @@ ISR(TIMER1_OVF_vect)
 {
     // WRITE YOUR CODE HERE
     
-    static uint8_t i = 0;  // This line will only run the first time
+    
 
-    if(i =< 9){
-        i++;
+    if(num0 =< 9){
+        num0++;
+        num1++;
+        if(num1 =< 5){
+            num1 = 0;
+        }
     }
     else{
-        i = 0;
+        num1 = 0;
     }
 
-    SEG_update_shift_regs(i, 0);
+    SEG_update_shift_regs(num0, 0);
+
+}
+
+/**********************************************************************
+ * Function: Timer/Counter0 overflow interrupt
+ * Purpose:  Display tens and units of a counter at SSD.
+ **********************************************************************/
+ISR(TIMER0_OVF_vect)
+{
+    static uint8_t pos = 0;
+    // WRITE YOUR CODE HERE
+
+    if(pos =< 1){
+        pos++;
+        if(pos >= 1){
+            pos = 0;
+            SEG_update_shift_regs(num0, pos);
+        }
+
+    }
+    else{
+        
+        SEG_update_shift_regs(num1, pos);
+    }
 
 }
