@@ -68,8 +68,6 @@ ISR(TIMER1_OVF_vect)
 {
     // WRITE YOUR CODE HERE
     
-    
-
     if(num0 =< 9){
         num0++;
         num1++;
@@ -80,9 +78,7 @@ ISR(TIMER1_OVF_vect)
     else{
         num1 = 0;
     }
-
     SEG_update_shift_regs(num0, 0);
-
 }
 
 /**********************************************************************
@@ -100,11 +96,8 @@ ISR(TIMER0_OVF_vect)
             pos = 0;
             SEG_update_shift_regs(num0, pos);
         }
-
     }
     else{
-        
         SEG_update_shift_regs(num1, pos);
     }
-
 }
