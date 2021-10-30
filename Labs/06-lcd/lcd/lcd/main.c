@@ -29,14 +29,11 @@ int main(void)
     lcd_init(LCD_DISP_ON);
 
     // Put string(s) at LCD display
-    lcd_gotoxy(1, 0);
-    lcd_puts("00:");
-//    lcd_gotoxy(5, 0);
-    
+//    lcd_gotoxy(1, 0);
+//    lcd_puts("00:");
 
     lcd_gotoxy(6, 0);
     lcd_puts(".");
-//    lcd_gotoxy(8, 0);
 
     lcd_gotoxy(12, 0);
     lcd_puts("a");
@@ -77,8 +74,7 @@ ISR(TIMER2_OVF_vect)
     static uint8_t number_of_overflows = 0;
     static uint8_t tens = 0;        // Tenths of a second
     static uint8_t secs = 0;        // Seconds
-//    char lcd_string_tens[2] = "  ";      // String for converting numbers by itoa()
-//    char lcd_string_secs[2] = "  ";
+    static uint8_t min = 0;        // Minute
     char lcd_string = "  ";
 
     number_of_overflows++;
@@ -88,31 +84,31 @@ ISR(TIMER2_OVF_vect)
         number_of_overflows = 0;
 
         // WRITE YOUR CODE HERE
-        
-        if(tens > 9)
+
+        tens++;
+        if(tens == 10)
         {
             tens = 0;
             secs++;
         }
-        else
-        {
-            tens++;
-            if(secs > 59)
+            if(secs == 60)
             {
                 secs = 0;
+                min++;
+                lcd_gotoxy(1, 0);
+                lcd_puts('00');
             }
-            else
-            {
-                
-            }
-        }
+                if(min == 99)
+                {
+                    min = 0;
+                }
         
         
         itoa(tens, lcd_string, 9);
         lcd_gotoxy(7, 0);
         lcd_puts(lcd_string);
         
-        if(secs < 9)
+        if(secs == 9)
         {
             itoa(secs, lcd_string, 10);
             lcd_gotoxy(5, 0);
@@ -122,6 +118,19 @@ ISR(TIMER2_OVF_vect)
         {
             itoa(secs, lcd_string, 10);
             lcd_gotoxy(4, 0);
+            lcd_puts(lcd_string);
+        }
+
+        if(min == 99)
+        {
+            itoa(min, lcd_string, 10);
+            lcd_gotoxy(2, 0);
+            lcd_puts(lcd_string);
+        }
+        else
+        {
+            itoa(min, lcd_string, 10);
+            lcd_gotoxy(1, 0);
             lcd_puts(lcd_string);
         }
 
