@@ -41,7 +41,7 @@ int main(void)
     ADMUX &= ~(1<<REFS1);
     
     // Set input channel to ADC0
-    ADMUX &= ~(1<<MUX0) | (1<<MUX1) | (1<<MUX2) | (1<<MUX3) ;
+    ADMUX &= ~((1<<MUX0) | (1<<MUX1) | (1<<MUX2) | (1<<MUX3)) ;
 
     // Enable ADC module
     ADCSRA |= (1<<ADEN);
@@ -103,6 +103,7 @@ ISR(ADC_vect)
     lcd_gotoxy(8, 0);
     lcd_puts("    ");
     uart_puts(lcd_string);
+    uart_puts("\r\n");
     lcd_gotoxy(8, 0);
     lcd_puts(lcd_string);
     
@@ -110,22 +111,47 @@ ISR(ADC_vect)
     lcd_gotoxy(13, 0);
     lcd_puts("   ");
     uart_puts(lcd_string);
+    uart_puts("\r\n");
+    uart_puts("\r\n");
     lcd_gotoxy(13, 0);
     lcd_puts(lcd_string);
     
     
     lcd_gotoxy(8, 1);
     lcd_puts("      ");
-    lcd_gotoxy(13, 0);
-    lcd_puts(lcd_string);
+    lcd_gotoxy(8, 1);
     
     
-    if(ADC == 1023 )
+    if(ADC > 1010 )
     {
-        lcd_puts("Right");
+        lcd_puts("none");
+        uart_puts("none");
     }
-    
-    
-    
+    else if (ADC > 590 && ADC < 690)
+    {
+        lcd_puts("select");
+        uart_puts("select");
+    }
+    else if (ADC > 300 && ADC < 460)
+    {
+        lcd_puts("left");
+        uart_puts("left");
+    }
+    else if (ADC > 190 && ADC < 300)
+    {
+        lcd_puts("down");
+        uart_puts("down");
+    }
+    else if (ADC > 50 && ADC < 150)
+    {
+        lcd_puts("up");
+        uart_puts("up");
+    }
+    else if (ADC < 20)
+    {
+        lcd_puts("right");
+        uart_puts("right");
+    }
 
+    uart_puts("\r\n");
 }
