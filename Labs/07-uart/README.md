@@ -54,40 +54,6 @@ ISR(ADC_vect)
     lcd_puts("      ");
     lcd_gotoxy(8, 1);
     
-    
-    if(ADC > 1010 )
-    {
-        lcd_puts("none");
-        uart_puts("none");
-    }
-    else if (ADC > 590 && ADC < 690)
-    {
-        lcd_puts("select");
-        uart_puts("select");
-    }
-    else if (ADC > 300 && ADC < 460)
-    {
-        lcd_puts("left");
-        uart_puts("left");
-    }
-    else if (ADC > 190 && ADC < 300)
-    {
-        lcd_puts("down");
-        uart_puts("down");
-    }
-    else if (ADC > 50 && ADC < 150)
-    {
-        lcd_puts("up");
-        uart_puts("up");
-    }
-    else if (ADC < 20)
-    {
-        lcd_puts("right");
-        uart_puts("right");
-        
-    }
-
-    uart_puts("\r\n");
 }
 ```
 
