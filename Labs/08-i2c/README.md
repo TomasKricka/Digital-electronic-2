@@ -85,3 +85,25 @@ Consider an application for temperature and humidity measurement and display. Us
 1. FSM state diagram picture of meteo station. The image can be drawn on a computer or by hand. Concise name of individual states and describe the transitions between them.
 
    ![your figure]()
+
+
+
+
+   <br>
+   <br>
+
+   1. Use schematic of the [Arduino Uno](../../Docs/arduino_shield.pdf) board and find out to which pins the SDA and SCL signals are connected.
+
+   | **Signal** | **MCU pin** | **Arduino pin(s)** |
+   | :-: | :-: | :-: |
+   | SDA (data)  | 27 | PC4 |
+   | SCL (clock) | 28 | PC5 |
+
+2. What is the general structure of I2C address and data frames?
+
+   | **Frame type** | **8** | **7** | **6** | **5** | **4** | **3** | **2** | **1** | **0** | **Description**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+   | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-- |
+   | Address | | | | | | | | | | |
+   | Data    | | | | | | | | | | |
+
+<a name="part1"></a>
