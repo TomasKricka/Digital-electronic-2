@@ -49,13 +49,14 @@ int main(void)
     // Configure 16-bit Timer/Counter1 to update FSM
     // Set prescaler to 33 ms and enable interrupt
     TIM1_overflow_33ms();
+    //TIM1_overflow_262ms();
     TIM1_overflow_interrupt_enable();
 
     // Enables interrupts by setting the global interrupt mask
     sei();
 
     // Put strings to ringbuffer for transmitting via UART
-    uart_puts("\r\nScan I2C-bus for devices:\r\n");
+    uart_puts("\r\nSencor measured values:\r\n");
 
     // Infinite loop
     while (1)
@@ -78,6 +79,7 @@ ISR(TIMER1_OVF_vect)
 {
     static state_t state = STATE_IDLE;  // Current state of the FSM
     static uint8_t addr = 7;            // I2C slave address
+    static uint8_t temp = 0;
     uint8_t result = 1;                 // ACK result from the bus
     char uart_string[2] = "00"; // String for converting numbers by itoa()
 
@@ -92,9 +94,10 @@ ISR(TIMER1_OVF_vect)
         
         
         // If slave address is between 8 and 119 then move to SEND state
-        if((addr > 8) && (addr < 119))
+        if((addr > 8) && (addr > 119))
         {
             state = STATE_SEND;
+            twi_read_ack();
         }
         if (addr > 120)
         {
@@ -131,7 +134,7 @@ ISR(TIMER1_OVF_vect)
     // A module connected to the bus was found
     case STATE_ACK:
         // Send info about active I2C slave to UART and move to IDLE
-        itoa(addr, uart_string, 10);
+        itoa(temp, uart_string, 10);
         uart_puts(uart_string);
         uart_puts("\r\n");
         state = STATE_IDLE;
